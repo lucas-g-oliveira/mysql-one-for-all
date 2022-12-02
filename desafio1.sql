@@ -7,7 +7,7 @@ CREATE TABLE SpotifyClone.plans(
 id_plan INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name_plan VARCHAR(25) NOT NULL,
 price_plan DOUBLE NOT NULL
-) engine = InnoDB;
+);
 
 -- USERS
 CREATE TABLE SpotifyClone.users(
@@ -16,14 +16,7 @@ name_user VARCHAR(25) NOT NULL,
 years_old INT NOT NULL,
 id_plan INT NOT NULL,
 hired DATE
-) engine = InnoDB;
-
--- FOLLOW
-CREATE TABLE SpotifyClone.folow_artist(
-id_user INT NOT NULL,
-id_artist INT NOT NULL,
-PRIMARY KEY(id_user, id_artist)
-) engine = InnoDB;
+);
 
 -- HISTORIC
 CREATE TABLE SpotifyClone.historic(
@@ -31,7 +24,7 @@ id_user INT NOT NULL,
 id_music INT NOT NULL,
 played datetime NOT NULL,
 CONSTRAINT id_hist PRIMARY KEY(id_user, id_music)
-) engine = InnoDB;
+);
 
 -- MUSICS
 CREATE TABLE SpotifyClone.musics(
@@ -47,13 +40,20 @@ id_album INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name_album VARCHAR(25),
 launch_year YEAR NOT NULL,
 id_artist INT NOT NULL
-) engine = InnoDB;
+);
 
 -- ARTISTS
 CREATE TABLE SpotifyClone.artists(
 id_artist INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 name_artist VARCHAR(25) NOT NULL
-) engine = InnoDB;
+);
+
+-- FOLLOW
+CREATE TABLE SpotifyClone.folow_artist(
+id_user INT NOT NULL,
+id_artist INT NOT NULL,
+PRIMARY KEY(id_artist, id_user)
+);
 
 USE SpotifyClone;
 
@@ -133,15 +133,15 @@ INSERT INTO SpotifyClone.folow_artist
 (id_user, id_artist) values
 (1, 1),
 (1, 2),
-(1, 4),
+(1, 3),
 (2, 1),
 (2, 3),
 (3, 2),
 (4, 4),
 (5, 5),
 (5, 6),
-(6, 6),
 (6, 1),
+(6, 6),
 (7, 6),
 (9, 3),
 (10, 2);
@@ -157,9 +157,9 @@ ALTER TABLE SpotifyClone.albuns
 ADD foreign key(id_artist) references SpotifyClone.artists (id_artist);
 
 ALTER TABLE SpotifyClone.folow_artist
-ADD FOREIGN KEY(id_user) references SpotifyClone.users(id_user),
-ADD FOREIGN KEY(id_artist) references SpotifyClone.albuns(id_artist);
+ADD FOREIGN KEY(id_user) references SpotifyClone.users (id_user),
+ADD FOREIGN KEY(id_artist) references SpotifyClone.artists (id_artist);
 
 ALTER TABLE SpotifyClone.historic
-ADD FOREIGN KEY(id_user) REFERENCES SpotifyClone.users(id_user),
-ADD FOREIGN KEY(id_music) REFERENCES SpotifyClone.musics(id_music);
+ADD FOREIGN KEY(id_user) REFERENCES SpotifyClone.users (id_user),
+ADD FOREIGN KEY(id_music) REFERENCES SpotifyClone.musics (id_music);
